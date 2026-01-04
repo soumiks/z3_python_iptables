@@ -29,6 +29,29 @@ iptables-query --rules firewall.rules --chain INPUT --src 10.0.0.1 --dst 10.0.0.
 
 See `examples/iptables/` for sample rule files and `tests/` for usage patterns.
 
+## Usage Examples
+
+### Compare two rule sets
+
+Check whether two saved firewalls behave the same for the `INPUT` chain:
+
+```bash
+iptables-equivalence examples/iptables/basic.rules examples/iptables/basic_with_block.rules --chain INPUT
+```
+
+If they differ you will see a counterexample packet with the actions taken by each ruleset.
+
+### Query a single packet
+
+Ask how a specific packet would be handled:
+
+```bash
+iptables-query --rules examples/iptables/basic.rules --chain INPUT \
+  --src 10.0.0.10 --dst 10.0.0.20 --protocol tcp --sport 51514 --dport 22 --state NEW
+```
+
+The command prints whether the packet is accepted, the matching rule, and any chain jumps taken.
+
 ## Testing
 
 Install dev dependencies (`pip install -e .[dev]`) and run the test suite with:
