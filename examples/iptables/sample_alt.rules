@@ -1,0 +1,10 @@
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+:INTERNAL - [0:0]
+-A INPUT -s 10.0.0.0/8 -j INTERNAL
+-A INPUT -j DROP
+-A INTERNAL -p tcp --dport 443 -m state --state NEW -j ACCEPT
+-A INTERNAL -j RETURN
+COMMIT

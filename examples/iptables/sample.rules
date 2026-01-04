@@ -1,0 +1,10 @@
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+:SSH - [0:0]
+-A INPUT -p tcp -m state --state NEW -s 10.0.0.0/8 --dport 22 -j SSH
+-A INPUT -j DROP
+-A SSH -m state --state NEW --dport 22 -j ACCEPT
+-A SSH -j RETURN
+COMMIT

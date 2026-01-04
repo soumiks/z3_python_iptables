@@ -1,0 +1,50 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "firewall-checker"
+version = "0.1.0"
+description = "Z3-backed firewall equivalence checker for iptables rules"
+readme = "README.md"
+authors = [{name = "Firewall Checker Team"}]
+license = {text = "MIT"}
+requires-python = ">=3.10"
+dependencies = [
+    "typer>=0.9",
+    "z3-solver>=4.12.2",
+    "rich>=13.7",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "hypothesis>=6.82",
+    "mypy>=1.8",
+    "ruff>=0.3",
+]
+
+[project.scripts]
+iptables-equivalence = "firewall_checker.cli.equivalence:app"
+iptables-query = "firewall_checker.cli.query:app"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "firewall_checker",
+    "tests",
+    "examples",
+    "README.md",
+    "PYTHON_IPTABLES_PORT_PLAN.md",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["firewall_checker"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra"
